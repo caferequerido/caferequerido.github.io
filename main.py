@@ -2,7 +2,7 @@
 import os
 import datetime
 from jinja2 import Template
-#import openai.OpenAI
+import openai.OpenAI
 import sillynamegenerator.sillynamegenerator as sillynamegenerator
 
 
@@ -85,8 +85,8 @@ def main():
     day_of_month = datetime.datetime.now().strftime("%d")
 
 
-    # famous_person_name = get_famous_name_from_date(month_name, day_of_month)
-    famous_person_name = "Albert Einstein"
+    famous_person_name = get_famous_name_from_date(month_name, day_of_month)
+    #famous_person_name = "Albert Einstein"
     famous_silly_name = get_silly_name(famous_person_name.split()[0], famous_person_name.split()[1])
 
     update_page(f"{month_name} {day_of_month}, {year}", famous_person_name, famous_silly_name)
