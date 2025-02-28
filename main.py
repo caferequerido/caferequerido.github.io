@@ -2,23 +2,29 @@
 import os
 import datetime
 from jinja2 import Template
-from openai import OpenAI
+import openai
 import sillynamegenerator.sillynamegenerator as sillynamegenerator
 
 
 def get_famous_name_from_date(month, day):
 
     my_api_key = os.environ.get("OPENAI_TOKEN")
-    client = OpenAI(
-    api_key=my_api_key)
-
-    completion = client.chat.completions.create(
-    model="gpt-4o",
-    store=True,
-    messages=[
-        {"role": "user", "content": f"Name a famous person born on {month} {day}. Just return the name."}
-    ]
-    )
+    client = openai.OpenAI(api_key=my_api_key)
+    try:
+        completion = client.chat.completions.create(
+            model="gpt-4o",
+            store=True,
+            messages=[
+                {"role": "user", "content": f"Name a famous person born on {month} {day}. Just return the name."}
+            ]
+        )
+        name = completion.choices[0].message.content
+    except openai.error.OpenAIError as e:
+        print(f"An OpenAI error occurred: {e}")
+        name = "Unknown"
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        name = "Unknown"
     name = completion.choices[0].message.content
 
     return name
@@ -84,10 +90,16 @@ def main():
 
     day_of_month = datetime.datetime.now().strftime("%d")
 
+    print(f"Date: {month_name} {day_of_month}, {year}")
 
     famous_person_name = get_famous_name_from_date(month_name, day_of_month)
+
+    print(f"Famous person: {famous_person_name}")
+
     #famous_person_name = "Albert Einstein"
     famous_silly_name = get_silly_name(famous_person_name.split()[0], famous_person_name.split()[1])
+
+    print(f"Silly name: {famous_silly_name}")
 
     update_page(f"{month_name} {day_of_month}, {year}", famous_person_name, famous_silly_name)
     # Laugh hysterically
