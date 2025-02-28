@@ -1,0 +1,10 @@
+venv/
+.venv/
+.DS_Store
+my-local-creds.sh
+# Ignore generated artifacts
+output/
+local-things/
+__pycache__/
+token.json
+lib/

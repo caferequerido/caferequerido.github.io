@@ -1,0 +1,43 @@
+name: CI/CD workflow
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+    
+        steps:
+        - uses: actions/checkout@v4
+        - name: Set up Python "3.13"
+          uses: actions/setup-python@v3
+          with:
+            python-version: "3.13"
+        - name: Install dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install pylint
+            pip install pipenv
+            pipenv install 
+            pipenv run pip list
+        - name: Generate static file
+          run: |
+            python main.py
+        - name: Upload static files as artifact
+          uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
+          with:
+            path: output/
+
+
+  # Deployment job
+    deploy:
+        environment:
+            name: github-pages
+            url: "caferequerido.github.io"
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4

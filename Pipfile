@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+sillynamegenerator = {editable = true, git = "https://github.com/caferequerido/poopypants-silly-name-generator.git"}
+openai = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"
