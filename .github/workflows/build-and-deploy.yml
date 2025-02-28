@@ -13,7 +13,6 @@ jobs:
           with:
             python-version: '3.13'
             cache: 'pipenv' # caching pip dependencies
-        - run: pip install -r requirements.txt
         - run: python3 --version
         - run: python3 -m pip install --upgrade pip
         - run: pip3 install pipenv
