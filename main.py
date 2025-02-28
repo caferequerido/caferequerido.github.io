@@ -8,7 +8,7 @@ import sillynamegenerator.sillynamegenerator as sillynamegenerator
 
 def get_famous_name_from_date(month, day):
 
-    my_api_key = os.environ.get("OPENAI_TOKEN")
+    my_api_key = os.environ.get("OPENAI_API_KEY")
     client = openai.OpenAI(api_key=my_api_key)
     try:
         completion = client.chat.completions.create(

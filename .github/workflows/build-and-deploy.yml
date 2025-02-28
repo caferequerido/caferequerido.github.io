@@ -32,7 +32,7 @@ jobs:
           - run: mkdir output
           - name: Run Python script
             env:
-              OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
+              OPENAI_API_KEY: ${{ secrets.OPENAI_TOKEN }}
             run: pipenv run python main.py
           - run: ls -al output/
           - name: Upload static files as artifact
