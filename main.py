@@ -6,7 +6,7 @@ import openai
 import sillynamegenerator.sillynamegenerator as sillynamegenerator
 
 
-def get_famous_name_from_date(month, day):
+def get_famous_names_from_date(month, day):
 
     my_api_key = os.environ.get("OPENAI_API_KEY")
     client = openai.OpenAI(api_key=my_api_key)
@@ -15,7 +15,7 @@ def get_famous_name_from_date(month, day):
             model="gpt-4o",
             store=True,
             messages=[
-                {"role": "user", "content": f"Name a famous person born on {month} {day}. Just return the name."}
+                {"role": "user", "content": f"Name 3 famous people born on {month} {day}. Just return the names as a comma separated list."}
             ]
         )
         name = completion.choices[0].message.content
@@ -25,9 +25,12 @@ def get_famous_name_from_date(month, day):
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
         name = "Unknown"
-    name = completion.choices[0].message.content
+    print(completion.choices[0].message)
 
-    return name
+    names = completion.choices[0].message.content
+    names_list = names.split(",")
+    print (names_list)
+    return names_list
 
 
 def get_silly_name(firstname, lastname):
@@ -37,20 +40,7 @@ def get_silly_name(firstname, lastname):
     #print(f"{firstname} {lastname}'s silly name is {silly_name_gen.lookup(firstname, lastname)}")
 
 
-def update_page_md(date, famous_name, silly_name):
-    file_to_update = "output/index.md"
-
-    with open(file_to_update, "w") as f:
-        f.write(f"### Today's date is: {date}\n")
-        f.write(f"### Fun Fact\n")
-        f.write(f"{famous_name} was born on this date.\n\n")
-        f.write(f"Their silly name is {silly_name}\n")
-
-    # print(f"Today's date is: {date}")
-    # print(f"{famous_name} was born on this date.")
-    # print(f"Their silly name is {silly_name}")
-
-def update_page(date, famous_name, silly_name):
+def update_page(date, names_dict):
     template_str = """
     <!DOCTYPE html>
     <html lang='en'>
@@ -62,13 +52,17 @@ def update_page(date, famous_name, silly_name):
     <body>
         <h1>Today's date is: {{ date }}</h1>
         <h2>Fun Fact</h2>
-        <p>{{ famous_name }} was born on this date.</p>
-        <p>Their silly name is {{ silly_name }}</p>
+        <p>Famous people born on this day:</p>
+        <ul>
+            {% for name in names_dict.keys() %}
+                <li>{{ name }} aka {{ names_dict[name] }} </li>
+            {% endfor %}
+        </ul>
     </body>
     </html>
     """
     template = Template(template_str)
-    rendered_html = template.render(date=date, famous_name=famous_name, silly_name=silly_name)
+    rendered_html = template.render(date=date, names_dict=names_dict)
 
     file_to_update = "output/index.html"
     with open(file_to_update, "w") as f:
@@ -92,16 +86,15 @@ def main():
 
     print(f"Date: {month_name} {day_of_month}, {year}")
 
-    famous_person_name = get_famous_name_from_date(month_name, day_of_month)
+    famous_names_list = get_famous_names_from_date(month_name, day_of_month)
 
-    print(f"Famous person: {famous_person_name}")
+    names_dict = {}
+    for name in famous_names_list:
+        name = name.strip()
+        names_dict[name] = get_silly_name(name.split()[0], name.split()[1])
+        print(f"{name} --> {names_dict[name]}")
 
-    #famous_person_name = "Albert Einstein"
-    famous_silly_name = get_silly_name(famous_person_name.split()[0], famous_person_name.split()[1])
-
-    print(f"Silly name: {famous_silly_name}")
-
-    update_page(f"{month_name} {day_of_month}, {year}", famous_person_name, famous_silly_name)
+    update_page(f"{month_name} {day_of_month}, {year}", names_dict)
     # Laugh hysterically
 
 if __name__ == "__main__":
