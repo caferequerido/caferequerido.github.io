@@ -7,22 +7,20 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
-    
         steps:
         - uses: actions/checkout@v4
-        - name: Set up Python "3.13"
-          uses: actions/setup-python@v3
+        - uses: actions/setup-python@v5
           with:
-            python-version: "3.13"
-        - name: Install dependencies and generate static file
-          run: |
-            python --version
-            python3 --version
-            python3 -m pip install --upgrade pip
-            pip3 install pipenv
-            pipenv install 
-            pipenv run pip list
-            python3 main.py
+            python-version: '3.13'
+            cache: 'pipenv' # caching pip dependencies
+        - run: pip install -r requirements.txt
+        - run: python3 --version
+        - run: python3 -m pip install --upgrade pip
+        - run: pip3 install pipenv
+        - run: pipenv install
+        - run: pipenv run pip3 list
+        - run: pip3 list
+        - run: python3 main.py
         - name: Upload static files as artifact
           uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
           with:
