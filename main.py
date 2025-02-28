@@ -1,6 +1,7 @@
 
 import os
 import datetime
+from jinja2 import Template
 #import openai.OpenAI
 import sillynamegenerator.sillynamegenerator as sillynamegenerator
 
@@ -30,7 +31,7 @@ def get_silly_name(firstname, lastname):
     #print(f"{firstname} {lastname}'s silly name is {silly_name_gen.lookup(firstname, lastname)}")
 
 
-def update_page(date, famous_name, silly_name):
+def update_page_md(date, famous_name, silly_name):
     file_to_update = "output/index.md"
 
     with open(file_to_update, "w") as f:
@@ -42,6 +43,31 @@ def update_page(date, famous_name, silly_name):
     # print(f"Today's date is: {date}")
     # print(f"{famous_name} was born on this date.")
     # print(f"Their silly name is {silly_name}")
+
+def update_page(date, famous_name, silly_name):
+    template_str = """
+    <!DOCTYPE html>
+    <html lang='en'>
+    <head>
+        <meta charset='UTF-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <title>Fun Fact</title>
+    </head>
+    <body>
+        <h1>Today's date is: {{ date }}</h1>
+        <h2>Fun Fact</h2>
+        <p>{{ famous_name }} was born on this date.</p>
+        <p>Their silly name is {{ silly_name }}</p>
+    </body>
+    </html>
+    """
+    template = Template(template_str)
+    rendered_html = template.render(date=date, famous_name=famous_name, silly_name=silly_name)
+
+    file_to_update = "output/index.html"
+    with open(file_to_update, "w") as f:
+        f.write(rendered_html)
+
 
 
 def main():
