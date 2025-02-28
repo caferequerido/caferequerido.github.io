@@ -2,7 +2,7 @@
 import os
 import datetime
 from jinja2 import Template
-import openai.OpenAI
+from openai import OpenAI
 import sillynamegenerator.sillynamegenerator as sillynamegenerator
 
 
