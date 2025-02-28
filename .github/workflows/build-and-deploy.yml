@@ -23,7 +23,7 @@ jobs:
         - name: Upload static files as artifact
           uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
           with:
-            path: output/index.md
+            path: output/
 
 
   # Deployment job
