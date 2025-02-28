@@ -12,7 +12,10 @@ permissions:
 
 
 jobs:
-    build:
+    build-and-deploy:
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
         runs-on: ubuntu-latest
         steps:
           - uses: actions/checkout@v4
@@ -28,16 +31,6 @@ jobs:
           - run: mkdir output
           - run: pipenv run python main.py
           - run: ls -al output/
-
-
-  # Deployment job
-    deploy:
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }}
-        runs-on: ubuntu-latest
-        needs: build
-        steps:
           - name: Upload static files as artifact
             uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
             with:
