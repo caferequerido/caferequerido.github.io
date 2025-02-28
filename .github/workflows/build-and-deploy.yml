@@ -18,11 +18,12 @@ jobs:
         - run: pip install pipenv
         - run: pipenv install
         - run: pipenv run pip list
+        - run: mkdir output
         - run: pipenv run python main.py
         - name: Upload static files as artifact
           uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
           with:
-            path: output/
+            path: output/index.md
 
 
   # Deployment job

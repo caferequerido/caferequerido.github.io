@@ -3,7 +3,7 @@ venv/
 .DS_Store
 my-local-creds.sh
 # Ignore generated artifacts
-output/
+output/*
 local-things/
 __pycache__/
 token.json
