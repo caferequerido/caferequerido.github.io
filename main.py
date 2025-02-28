@@ -1,7 +1,7 @@
 
 import os
 import datetime
-import openai.OpenAI
+#import openai.OpenAI
 import sillynamegenerator.sillynamegenerator as sillynamegenerator
 
 
