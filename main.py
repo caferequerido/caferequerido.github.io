@@ -91,6 +91,7 @@ def main():
     names_dict = {}
     for name in famous_names_list:
         name = name.strip()
+        name = name.rstrip(".")
         names_dict[name] = get_silly_name(name.split()[0], name.split()[1])
         print(f"{name} --> {names_dict[name]}")
 
