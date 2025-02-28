@@ -18,7 +18,7 @@ jobs:
         - run: pip3 install pipenv
         - run: pipenv install
         - run: pipenv run pip3 list
-        - run: pip3 list
+        - run: pipenv shell
         - run: python3 main.py
         - name: Upload static files as artifact
           uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
