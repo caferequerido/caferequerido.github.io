@@ -14,15 +14,12 @@ jobs:
           uses: actions/setup-python@v3
           with:
             python-version: "3.13"
-        - name: Install dependencies
+        - name: Install dependencies and generate static file
           run: |
             python -m pip install --upgrade pip
-            pip install pylint
             pip install pipenv
             pipenv install 
             pipenv run pip list
-        - name: Generate static file
-          run: |
             python main.py
         - name: Upload static files as artifact
           uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
