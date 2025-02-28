@@ -23,13 +23,17 @@ jobs:
             with:
               python-version: '3.13'
               cache: 'pipenv' # caching pip dependencies
-          - run: python --version
+          - name: Python Environment setup
+            run: python --version
           - run: python -m pip install --upgrade pip
           - run: pip install pipenv
           - run: pipenv install
           - run: pipenv run pip list
           - run: mkdir output
-          - run: pipenv run python main.py
+          - name: Run Python script
+            env:
+              OPENAI_TOKEN: ${{ secrets.OPENAI_TOKEN }}
+            run: pipenv run python main.py
           - run: ls -al output/
           - name: Upload static files as artifact
             uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
