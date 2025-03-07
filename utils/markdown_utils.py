@@ -1,4 +1,4 @@
-def generate_markdown(the_date, names_dict):
+def generate_markdown(the_date, names_dict, description_dict, birth_year_dict):
 
         # <h1>Today's date is: {{ the_date }}</h1>
         # <h2>Fun Fact</h2>
@@ -12,5 +12,7 @@ def generate_markdown(the_date, names_dict):
     markdown = f"# Today's date is: {the_date}\n\n## Fun Fact\n\nFamous people born on this day:\n\n"
     for name in names_dict.keys():
         markdown += f"- {name} aka {names_dict[name]}\n"
+        markdown += f"- Born in the year {birth_year_dict[name]}\n"
+        markdown += f"- {description_dict[name]}\n\n"
     return markdown
 

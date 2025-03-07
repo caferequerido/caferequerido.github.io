@@ -1,6 +1,6 @@
 from jinja2 import Template
 
-def generate_html(the_date, names_dict):
+def generate_html(the_date, names_dict, description_dict, birth_year_dict):
     template_str = """
     <!DOCTYPE html>
     <html lang='en'>
@@ -16,13 +16,15 @@ def generate_html(the_date, names_dict):
         <ul>
             {% for name in names_dict.keys() %}
                 <li>{{ name }} aka {{ names_dict[name] }} </li>
+                <p>Born in the year {{ birth_year_dict[name] }}</p>
+                <p>{{ description_dict[name] }}</p>
             {% endfor %}
         </ul>
     </body>
     </html>
     """
     template = Template(template_str)
-    rendered_html = template.render(the_date=the_date, names_dict=names_dict)
+    rendered_html = template.render(the_date=the_date, names_dict=names_dict, description_dict=description_dict, birth_year_dict=birth_year_dict)
 
     return rendered_html
 
