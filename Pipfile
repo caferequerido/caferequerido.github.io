@@ -8,6 +8,7 @@ sillynamegenerator = {editable = true, git = "https://github.com/caferequerido/p
 openai = "*"
 jinja2 = "*"
 requests = "*"
+markdownify = "*"
 
 [dev-packages]
 
