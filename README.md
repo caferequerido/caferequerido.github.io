@@ -2,6 +2,11 @@
 
 Github pages play ground.
 
+
+### Things to fix
+- the name of the file being published to github site is no longer available b/c we are generating multiple files with different names
+
+
 ### Things to try
 - play around with getting structured responses from openai, https://openai.com/index/introducing-structured-outputs-in-the-api/
     - Example : respond with 
