@@ -11,6 +11,7 @@ def send_message_via_webhook(webhook_url, message):
         print("Discord Webhook message sent successfully")
     else:
         print(f"Failed to send message: {response.status_code}")
+        print(response.text)
 
 
 def send_discord_message(message):

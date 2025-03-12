@@ -8,3 +8,9 @@ Github pages play ground.
         - person-name
         - year of birth
         - short description of person
+
+
+- Make it more modular to work around the 2000 character discord limit 
+- or refactor it to make it fit
+- make it pretty
+

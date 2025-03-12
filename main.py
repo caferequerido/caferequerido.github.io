@@ -1,11 +1,11 @@
 
 import os
-from utils import famous_people
+from utils import fun_facts
 
 
 def main():
 
-    famous_people.gen_famous_people_list()
+    fun_facts.generate_files(post_to_discord=True)
 
 if __name__ == "__main__":
     main()
