@@ -39,7 +39,7 @@ class FamousPeople(BaseModel):
    people: List[FamousPerson]
 
 PROMPT_TEMPLATE = """ {prompt}. For each person get their name, birth year, and a brief two sentence description."""
-def openai_chat_structured(prompt):
+def openai_chat_famous_people(prompt):
     SYSTEM_PROMPT = "You are a personal assistant."
 
     my_api_key = os.environ.get("OPENAI_API_KEY")

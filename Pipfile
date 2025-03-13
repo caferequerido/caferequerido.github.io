@@ -9,6 +9,7 @@ openai = "*"
 jinja2 = "*"
 requests = "*"
 markdownify = "*"
+google-genai = "*"
 
 [dev-packages]
 

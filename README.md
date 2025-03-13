@@ -13,7 +13,8 @@ Github pages play ground.
         - person-name
         - year of birth
         - short description of person
-
+- Gemini https://googleapis.github.io/python-genai/
+- https://ai.google.dev/gemini-api/docs/model-tuning
 
 - Make it more modular to work around the 2000 character discord limit 
 - or refactor it to make it fit

@@ -4,7 +4,7 @@ import markdownify
 import json
 from jinja2 import Template
 import sillynamegenerator.sillynamegenerator as sillynamegenerator
-from utils import file_utils, openai_utils, discord_utils, markdown_utils
+from utils import file_utils, openai_utils, discord_utils, markdown_utils, gemini_utils
 
 
 def get_silly_name(firstname, lastname):
@@ -59,7 +59,8 @@ def generate_section_html(section_heading, people_list):
 
 def gen_people_list(section_heading, prompt):
 
-    response = openai_utils.openai_chat_structured(prompt)
+    response = openai_utils.openai_chat_famous_people(prompt)
+    # response = gemini_utils.gemini_chat_famous_people(prompt)
 
     print(f"Raw Output : {response}\n")
     # Decode the JSON string into a Python dictionary and get the list of people
@@ -95,7 +96,8 @@ def gen_people_list(section_heading, prompt):
     return html_content
 
 
-def generate_file_scientist(post_to_discord=False):
+
+def generate_files(post_to_discord=False):
 
     year = datetime.datetime.now().strftime("%Y")
     month_name = datetime.datetime.now().strftime("%b")
@@ -109,58 +111,31 @@ def generate_file_scientist(post_to_discord=False):
     html_content_scientist = gen_people_list(section_heading_scientist, ai_prompt_to_get_names_scientist)    
 
 
-    # ai_prompt_to_get_names_athelete = f"Name 3 famous athletes born on {month_name} {day_of_month}"
-    # section_heading_athlete = f"Famous athletes born on this day"
-
-    # html_content_athlete = gen_people_list(section_heading_athlete, ai_prompt_to_get_names_athelete)    
-
-
-    # html_content_combined = html_content_scientist + html_content_athlete
-    html_content_combined = html_content_scientist
-
-    html_content_final = generate_final_html(f"{month_name} {day_of_month}, {year}", html_content_combined)
-    file_utils.save_file(html_content_final, "output/index_scientist.html")
-    markdown_content = markdown_utils.convert_html_to_markdown(html_content_final)
-    file_utils.save_file(markdown_content, "output/index_scientist.md")
-
-    if post_to_discord:
-        discord_utils.send_discord_message(markdown_content)
-
-
-def generate_file_athlete(post_to_discord=False):
-
-    year = datetime.datetime.now().strftime("%Y")
-    month_name = datetime.datetime.now().strftime("%b")
-    day_of_month = datetime.datetime.now().strftime("%d")
-
-    print(f"Date: {month_name} {day_of_month}, {year}")
-
-    # ai_prompt_to_get_names_scientist = f"Name 3 famous scientists born on {month_name} {day_of_month}"
-    # section_heading_scientist = f"Famous scientists born on this day"
-
-    # html_content_scientist = gen_people_list(section_heading_scientist, ai_prompt_to_get_names_scientist)    
-
-
     ai_prompt_to_get_names_athelete = f"Name 3 famous athletes born on {month_name} {day_of_month}"
     section_heading_athlete = f"Famous athletes born on this day"
 
     html_content_athlete = gen_people_list(section_heading_athlete, ai_prompt_to_get_names_athelete)    
 
 
-    # html_content_combined = html_content_scientist + html_content_athlete
-    html_content_combined = html_content_athlete
+    html_content_combined = html_content_scientist + html_content_athlete
+    #html_content_combined = html_content_scientist
 
-    html_content_final = generate_final_html(f"{month_name} {day_of_month}, {year}", html_content_combined)
-    file_utils.save_file(html_content_final, "output/index_athlete.html")
-    markdown_content = markdown_utils.convert_html_to_markdown(html_content_final)
-    file_utils.save_file(markdown_content, "output/index_athlete.md")
+    html_content_scientist_final = generate_final_html(f"{month_name} {day_of_month}, {year}", html_content_scientist)
+    file_utils.save_file(html_content_scientist_final, "output/index_scientist.html")
+    html_content_athlete_final = generate_final_html(f"{month_name} {day_of_month}, {year}", html_content_athlete)
+    file_utils.save_file(html_content_athlete_final, "output/index_athelete.html")
+
+    html_content_combined_final = generate_final_html(f"{month_name} {day_of_month}, {year}", html_content_combined)
+    file_utils.save_file(html_content_combined_final, "output/index.html")
+
+
+    markdown_content_scientist = markdown_utils.convert_html_to_markdown(html_content_scientist_final)
+    file_utils.save_file(markdown_content_scientist, "output/index_scientist.md")
+
+    markdown_content_athlete = markdown_utils.convert_html_to_markdown(html_content_athlete_final)
+    file_utils.save_file(markdown_content_athlete, "output/index_athlete.md")
 
     if post_to_discord:
-        discord_utils.send_discord_message(markdown_content)
-
-
-def generate_files(post_to_discord=False):
-
-    generate_file_scientist(post_to_discord)
-    generate_file_athlete(post_to_discord)  
+        discord_utils.send_discord_message(markdown_content_scientist)
+        discord_utils.send_discord_message(markdown_content_athlete)
 
